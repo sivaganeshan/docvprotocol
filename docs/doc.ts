@@ -75,7 +75,7 @@ enum doctypes{
     newCertificates = "NEW_CERTIFICATES"
 }
 
-//As soon as customer given details
+//As soon as customer given details // cid
 type bondNftMetadata = {
     name:string,
     email:string,
@@ -109,6 +109,7 @@ type bondNftMetadataUpdate = {
 //const myHash = sjcl.codec.hex.fromBits(myBitArray)
 //*********************************************************************** */
 
+
 //1.dropdown to select doctype
 //scenario where notaryAffidavit is selected
 
@@ -117,10 +118,39 @@ type bondNftMetadataUpdate = {
 
 //3.selects one of the lawyer or legal entity to verify 
 
+//user form ->  
 // Name, Email, mobile, address, ID_Type, ID_Number,  purposeData{this will contain all the texts}, 
 
-//4. js-ipfs create data and storage uri
+// check box (purposeData -> all the details that have provided is true to my knowledge, )
+ //submit
+//
+//4. js-ipfs create data and storage uri ->(purposeData), (bondNftMetadata)
 //5. Call -> CreateBond(storage uri, value:{5 matic}) -> escrow contract
+
+//------------------------------------------------------
+
+
+//webapp_
+// lawyer / legal entity 
+//bond // cid
+// 1. get all bond details -> from smartcontract
+//storage uri -> read from ipfs
+//2. list all the bond ->
+//3. upon lawyer selction of bond -> show purpose data -> text area
+
+//4. File upload -> pdf.js -> read
+//5. string->sjcl.js / hash
+//6. ipfs -> cid, 
+//6. bondNftMetadataUpdate {
+   // ipfs -> cid, 
+    //hash
+//}
+
+
+//updatemethod(bondid, uri,hash)
+
+
+// id, doc, -> sha256 ->
 
 
 
