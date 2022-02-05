@@ -10,7 +10,7 @@ interface IBondNftLegal {
     function updateABond(
         uint256 id_,
         string memory hashedDoc_,
-        string memory
+        string memory storageUri_
     ) external returns (bool);
 
     function verifyBond(uint256 id_, string memory hashedDoc_)

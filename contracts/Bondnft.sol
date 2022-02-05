@@ -102,12 +102,13 @@ contract BondNft is
     function updateABond(
         uint256 id_,
         string memory hashedDoc_,
-        string memory
+        string memory storageUri_
     ) external returns (bool) {
         require(isLegalMember(_msgSender()), "Not a legal member");
         require(id_ < _tokenIds.current(), "Not a valid nft");
         verifiedDocumentHash[id_] = hashedDoc_;
         verifiedBonds[id_];
+        _setTokenURI(id_,storageUri_);
         return true;
     }
 
