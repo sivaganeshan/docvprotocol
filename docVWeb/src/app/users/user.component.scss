@@ -1,0 +1,85 @@
+$dropdown-primary: #d63384;
+$dropdown-secondary: #d69eba;
+
+.container {
+  margin-top: 30px;
+
+  .title {
+    text-align: center;
+  }
+
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 35px;
+    align-items: center;
+
+    .dropdownCus {
+      width: 215px;
+      background-color: $dropdown-primary;
+    }
+  }
+
+  .userInfo {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 35px;
+    align-items: center;
+    background-color: rgba(155, 155, 155, 0.097);
+
+    .label {
+      padding: 10px;
+    }
+
+    .spacer {
+      padding: 15px 0px 0px 0px;
+
+      label {
+        margin-right: 5px;
+      }
+      input {
+        display: flex;
+      }
+
+      .dropdown {
+        display: inline-grid;
+      }
+
+      textarea {
+        display: inline-block;
+        width: -webkit-fill-available;
+        min-height: 75px;
+      }
+
+      .formLabel {
+        text-align: center;
+        font-weight: 800;
+      }
+    }
+
+    .dropdownCus {
+      width: 215px;
+      background-color: $dropdown-primary;
+    }
+
+    .confirmClass {
+      input {
+        margin: 5px;
+      }
+      label {
+        display: block;
+      }
+      .submit {
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      .errors {
+        color: red;
+        margin-top: 15px;
+        display: inline-grid;
+        text-align: center;
+      }
+    }
+  }
+}
