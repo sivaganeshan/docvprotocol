@@ -1,0 +1,109 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="title">
+                <span> USER PORTAL </span>
+            </div>
+        </div>   
+    </div>
+    <div class="row main">
+        <div class="col-lg-4">
+            <span>Select Doc Type:</span>
+            <div class="dropdown">
+                <button class="btn dropdownCus dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ selectedDocType.length!=0 ? selectedDocType: 'Doc Types'}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                 <ng-container *ngFor="let item of enumIter(doc)">
+                    <li><a class="dropdown-item" (click)="setDocType(item)">{{item}}</a></li>
+                 </ng-container>
+                </ul>
+              </div>
+        </div>
+        <div class="col-lg-4" *ngIf="selectedDocType.length != 0">
+            <span>Select Persona:</span>
+            <div class="dropdown">
+                <button class="btn dropdownCus dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ selectedPersona.length!=0 ? selectedPersona: 'Personas'}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                 <ng-container *ngFor="let item of enumIter(usrPer)">
+                    <li><a class="dropdown-item" (click)="setPersona(item)">{{item}}</a></li>
+                 </ng-container>
+                </ul>
+              </div>
+        </div>
+        <div class="col-lg-4" *ngIf="selectedPersona.length != 0">
+            <span>Select Legal Entity:</span>
+            <div class="dropdown">
+                <button class="btn dropdownCus dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ selectedLegalEntity != '' ? selectedLegalEntityName: 'Entities'}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                 <ng-container *ngFor="let item of legalEntity">
+                    <li><a class="dropdown-item" (click)="setEntity(item)">{{item.name}}</a></li>
+                 </ng-container>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row userInfo" *ngIf="selectedLegalEntity.length != 0">
+        <div class="col-lg-12">
+            <div class="row spacer">
+                <div class="col-lg-12 formLabel">
+                    <span>Enter User Details</span>
+                </div>
+                <div class="col-lg-4">
+                    <label for="name">*Name: </label> 
+                    <input type="text" id="name" [(ngModel)]="bondMetaData.name" />
+                </div>
+                <div class="col-lg-4">
+                    <label>*Email: </label>
+                    <input type="text" id="email" [(ngModel)]="bondMetaData.email" />
+                </div>
+                <div class="col-lg-4">
+                    <label>*Mobile:</label> 
+                    <input type="text" id="mobile" [(ngModel)]="bondMetaData.mobile" />
+                </div>
+            </div>
+            <div class="row spacer">
+                <div class="col-lg-4">
+                    <div class="dropdown">
+                        <label>*Id Type:</label> 
+                        <button class="btn dropdownCus dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ selectedIdType != '' ? selectedIdType: 'Id Types'}}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <ng-container *ngFor="let item of enumIter(idTypes)">
+                                <li><a class="dropdown-item" (click)="setIdType(item)">{{item}}</a></li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <label>*ID:</label> 
+                    <input type="text" id="idnumber" [(ngModel)]="bondMetaData.idNumber" />
+                </div>
+                <div class="col-lg-4">
+                    <label>*Purpose:</label> 
+                    <textarea  [(ngModel)]="bondPurposeData"></textarea>
+                </div>
+            </div>
+            <div class="row spacer form-check confirmClass">
+                <div class="col-lg-12">
+                    <input class="form-check-input" type="checkbox" id="confirmBox" [(ngModel)]="bondMetaData.isConfirmed">
+                    <label class="form-check-label" for="confirmBox">
+                        By checking this box, i certify the information provided on and in connection with this form is true and correct to the best of my knowledge. I also understand that any false statements or deliberate omissions on this form may subject me to legal actions for fraudulent misrepresentation. 
+                    </label>
+                </div>
+                <div class="col submit">
+                    <button type="button" [disabled]="!bondMetaData.isConfirmed" class="btn btn-primary" (click)="submitUserData()"> Submit </button>
+                </div>
+                <div class="col errors" *ngIf="!bondMetaDataErrors">
+                    All fields have to filled. No empty fields.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

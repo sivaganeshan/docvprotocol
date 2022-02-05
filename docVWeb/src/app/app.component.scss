@@ -1,0 +1,16 @@
+.docs-navbar-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: auto;
+  background-color: #9c27b0;
+
+  .appLogo {
+    width: 60px;
+  }
+
+  .title {
+    font-size: x-large;
+    color: white;
+  }
+}

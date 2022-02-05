@@ -1,0 +1,86 @@
+$dropdown-primary: #d63384;
+$dropdown-secondary: #d69eba;
+
+.container {
+  margin-top: 30px;
+
+  .title {
+    text-align: center;
+  }
+
+  .metaDataCard {
+    background-color: rgba(143, 142, 142, 0.645);
+    padding: 10px;
+    flex-wrap: wrap;
+    display: flex;
+
+    .metaCard {
+      width: 18rem;
+      margin: 10px;
+    }
+
+    .selected {
+      border: 2px solid blue;
+    }
+  }
+
+  .metaDataPurpose {
+    background-color: rgba(143, 142, 142, 0.645);
+    margin-top: 10px;
+    flex-wrap: wrap;
+    display: flex;
+
+    textarea {
+      height: 7rem;
+      width: -webkit-fill-available;
+    }
+  }
+
+  .centered {
+    align-items: center;
+    text-align: center;
+
+    input.form-check-input {
+      position: fixed;
+      margin-left: 8rem;
+    }
+  }
+
+  .spacer {
+    padding: 15px 0px 0px 0px;
+
+    label {
+      margin-right: 5px;
+    }
+    input {
+      display: flex;
+    }
+
+    .dropdown {
+      display: inline-grid;
+    }
+
+    textarea {
+      display: inline-block;
+      width: -webkit-fill-available;
+      min-height: 75px;
+    }
+
+    .formLabel {
+      text-align: center;
+      font-weight: 800;
+    }
+  }
+
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 35px;
+    align-items: center;
+
+    .dropdownCus {
+      width: 215px;
+      background-color: $dropdown-primary;
+    }
+  }
+}
