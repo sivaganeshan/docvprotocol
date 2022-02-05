@@ -17,9 +17,9 @@ contract Escrow is Ownable{
          legalFundContract = ILegalFund(fundContract_);
      }
 
-    function createABond(string memory uri_, address legalMember) external payable returns(uint256){
-        uint256 bondId = bondNftContract.mintABond(_msgSender(), uri_);
+    function createABond(string memory uri_, address legalMember) external payable{
+        require(msg.value> 0.1 ether, "Error invalid fund");
+        bondNftContract.mintABond(_msgSender(), uri_);
         legalFundContract.depositToLegalMember{value:msg.value}(legalMember);
-        return bondId;
     }
 }

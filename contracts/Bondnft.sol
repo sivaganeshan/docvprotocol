@@ -34,7 +34,6 @@ contract BondNft is
         ERC721(name_, symbol_)
     {
         legalMembers.add(_msgSender());
-        pause();
     }
 
     function canTransfer() external view returns (bool _status) {

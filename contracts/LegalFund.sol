@@ -7,13 +7,18 @@ import './ILegalFund.sol';
 contract LegalFund is Ownable, ILegalFund{
 
 
-    mapping(address=> uint256) legalBalance;
+    mapping(address=> uint256) public legalBalance;
 
     constructor(){
     }
 
     function depositToLegalMember(address to_) external override payable {
-        legalBalance[to_] = legalBalance[to_]+msg.value;
+        require(msg.value> 0.1 ether, "Error2 invalid fund");
+        if(legalBalance[to_] == 0){
+            legalBalance[to_] = msg.value;
+        }else{
+            legalBalance[to_] = legalBalance[to_]+msg.value;
+        }
     }
 
     function withdrawLegalMemberBalance() external {
