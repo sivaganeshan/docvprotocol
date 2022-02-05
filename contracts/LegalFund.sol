@@ -1,20 +1,18 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./IbondNft.sol";
+import "./IBondNft.sol";
 import './ILegalFund.sol';
 
 contract LegalFund is Ownable, ILegalFund{
 
-    IBondNftLegal internal legalBondNft;
 
     mapping(address=> uint256) legalBalance;
 
-    constructor(address legalBondNft_){
-        legalBondNft = IBondNftLegal(legalBondNft_);
+    constructor(){
     }
 
-    function depositToLegalMember(address to_) external payable {
+    function depositToLegalMember(address to_) external override payable {
         legalBalance[to_] = legalBalance[to_]+msg.value;
     }
 

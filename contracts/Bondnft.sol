@@ -89,6 +89,7 @@ contract BondNft is
 
     function mintABond(address to_, string memory storageUri_)
         external
+        override
         returns (uint256)
     {
         _tokenIds.increment();
@@ -103,7 +104,7 @@ contract BondNft is
         uint256 id_,
         string memory hashedDoc_,
         string memory storageUri_
-    ) external returns (bool) {
+    ) external override returns (bool) {
         require(isLegalMember(_msgSender()), "Not a legal member");
         require(id_ < _tokenIds.current(), "Not a valid nft");
         verifiedDocumentHash[id_] = hashedDoc_;
@@ -114,6 +115,7 @@ contract BondNft is
 
     function verifyBond(uint256 id_, string memory hashedDoc_)
         external
+        override
         view
         returns (bool)
     {
@@ -129,6 +131,7 @@ contract BondNft is
 
     function getAllBonds(uint256 start_, uint8 bondCount_)
         external
+        override
         view
         returns (bondDetails[] memory)
     {
