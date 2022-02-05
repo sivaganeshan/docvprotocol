@@ -18,7 +18,7 @@ contract LegalFund is Ownable, ILegalFund{
         legalBalance[to_] = legalBalance[to_]+msg.value;
     }
 
-    function withdrawLegalMemberBalanace() external {
+    function withdrawLegalMemberBalance() external {
            require(legalBalance[_msgSender()]>0, "no balance for the member");
            uint256 amount = legalBalance[_msgSender()];
            legalBalance[_msgSender()] = 0;
