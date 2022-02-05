@@ -79,7 +79,7 @@ enum doctypes{
 type bondNftMetadata = {
     name:string,
     email:string,
-    mobile:string,
+    mobile:string,  //cid =>//invalidated
     idType:string,
     idNumber:string,
     purposeDataUrl:string,//cid of purpose
@@ -95,7 +95,7 @@ type bondNftMetadataUpdate = {
     purposeDataUrl:string,//cid of purpose
     //newlyadded
     legalDataUrl:string //cid of legal data prepared from lawyer /entity
-    legalDatahash: string, // 
+
 }
 
 //************** dependencies to install in front end ******************** /
@@ -146,8 +146,29 @@ type bondNftMetadataUpdate = {
     //hash
 //}
 
+//1.getBond details -> [cids] -> ipfs cid -> data , -> card
+//2. //After legal entity /lawyer prepared the document
+type bondNftMetadataUpdate = {
+    name:string,
+    email:string,
+    mobile:string,
+    idType:string,
+    idNumber:string,
+    purposeDataUrl:string,//cid of purpose
+    //newlyadded
+    legalDataUrl:string //cid of legal data prepared from lawyer /entity 
+}
+
+//hashed pdf 
+//cid -> bondNftMetadataUpdate
+
+//updateBond()
+
+
 
 //updatemethod(bondid, uri,hash)
+
+//[0:cid1, 1:cid2, 2:cid3, 3:cid4]
 
 
 // id, doc, -> sha256 ->

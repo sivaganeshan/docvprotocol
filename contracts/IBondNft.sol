@@ -1,5 +1,10 @@
 pragma solidity ^0.8.0;
 
+struct bondDetails{
+        uint256 bondId;
+        string cid;
+    }
+
 interface IBondNftMint {
     function mintABond(address to_, string memory storageUri_)
         external
@@ -7,6 +12,9 @@ interface IBondNftMint {
 }
 
 interface IBondNftLegal {
+
+    
+
     function updateABond(
         uint256 id_,
         string memory hashedDoc_,
@@ -21,5 +29,5 @@ interface IBondNftLegal {
     function getAllBonds(uint256 start_, uint8 bondCount_)
         external
         view
-        returns (string[] memory);
+        returns (bondDetails[] memory);
 }

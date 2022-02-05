@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import {IBondNftMint, IBondNftLegal} from "./IBondNft.sol";
+import {IBondNftMint, IBondNftLegal, bondDetails} from "./IBondNft.sol";
 
 contract BondNft is
     ERC721URIStorage,
@@ -126,20 +126,20 @@ contract BondNft is
         return true;
     }
 
+
     function getAllBonds(uint256 start_, uint8 bondCount_)
         external
         view
-        returns (string[] memory)
+        returns (bondDetails[] memory)
     {
-        string[] memory storageUris = new string[](bondCount_);
+        bondDetails[] memory storageUris = new bondDetails[](bondCount_);
         require(start_ < _tokenIds.current(), "Not a valid nft");
         uint256 indexOfStorage = 0;
         for (uint256 index = start_; index < start_ + bondCount_; index++) {
             require(index < _tokenIds.current(), "Not a valid nft");
-            storageUris[indexOfStorage] = tokenURI(index);
+            storageUris[indexOfStorage] = bondDetails(index,tokenURI(index));
             indexOfStorage++;
         }
-
         return storageUris;
     }
 }
