@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./IBondNft.sol";
+import {IBondNftMint, IBondNftLegal} from "./IBondNft.sol";
 
 contract BondNft is
     ERC721URIStorage,
