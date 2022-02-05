@@ -1,5 +1,105 @@
 pragma solidity ^0.8.0;
 
-contract BondNft{
 
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "./IBondNft.sol";
+
+contract BondNft is ERC721URIStorage, Ownable, Pausable,IBondNft{
+
+
+    using EnumerableSet for EnumerableSet.AddressSet;
+
+    using Counters for Counters.Counter;
+
+    Counters.Counter private _tokenIds;
+
+    // all the tokens hold by the owner
+    mapping(address => uint256[]) bonds;
+
+    EnumerableSet.AddressSet internal legalMembers;
+
+    //Hashed doc
+    mapping(uint256 => string) verifiedDocumentHash;
+
+
+    constructor(string memory name_, string memory symbol_)
+    ERC721(name_, symbol_)
+    {
+        legalMembers.add(_msgSender());
+        pause();
+    }
+
+   
+
+    function canTransfer() external view returns (bool _status){
+        return (!paused() || _msgSender() == owner());
+    }
+
+    //Implemented hook that ovverides the function to make it nontransferable until desired
+    function _beforeTokenTransfer(address _from, address _to, uint256 _tokenId) internal view override {
+        if (paused()){
+            require(_msgSender() == owner(), "Only the Owner can Transfer or Mint until pause");
+        }
+    }
+
+    // if a contract is paused only owner() can mint and transfer
+    function pause() public onlyOwner{
+        _pause();
+    }
+
+    //if a contract is unpaused any one having minter role can mint 
+    //Transferable if unpaused
+    function unPause() public onlyOwner{
+        _unpause();
+    }
+
+    function isLegalMember(address legalMember_) internal view returns (bool role_){
+        return legalMembers.contains(legalMember_);
+    }
+    
+    // add a minter address can be done only from owner
+    function addMinterRole(address legalMember_) public onlyOwner{
+
+        if(!legalMembers.contains(legalMember_)){
+            legalMembers.add(legalMember_);
+        }
+    }
+
+    // remove a minter address can be done only from owner
+    function removeMinterRole(address legalMember_) public onlyOwner {
+        require(legalMembers.contains(legalMember_));
+        legalMembers.remove(legalMember_);
+    }
+
+    function mintABond(address to_, string memory storageUri_) external returns(uint256){
+        
+         _tokenIds.increment();
+
+        uint256 newBond = _tokenIds.current();
+
+        _safeMint(to_,newBond);
+
+         _setTokenURI(newBond, storageUri_);
+
+         bonds[to_].push(newBond);
+
+        return newBond;
+    }
+
+    function updateABond(uint256 id_, string memory hashedDoc_, string memory) external returns(bool){
+
+        require(isLegalMember(_msgSender()), "Not a legal member");
+        verifiedDocumentHash[id_] = hashedDoc_;
+        return true;
+    }
+
+    function verifyBond(uint256 id_, string memory hashedDoc_) external view returns(bool){
+         string memory docHash = verifiedDocumentHash[id_];
+         require(keccak256(abi.encodePacked(docHash)) == keccak256(abi.encodePacked(hashedDoc_)), "Invalid doc");
+         return true;
+    }
 }
