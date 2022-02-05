@@ -1,6 +1,5 @@
 pragma solidity ^0.8.0;
 
-
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
@@ -8,9 +7,13 @@ import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./IBondNft.sol";
 
-contract BondNft is ERC721URIStorage, Ownable, Pausable,IBondNft{
-
-
+contract BondNft is
+    ERC721URIStorage,
+    Ownable,
+    Pausable,
+    IBondNftMint,
+    IBondNftLegal
+{
     using EnumerableSet for EnumerableSet.AddressSet;
 
     using Counters for Counters.Counter;
@@ -23,48 +26,57 @@ contract BondNft is ERC721URIStorage, Ownable, Pausable,IBondNft{
     EnumerableSet.AddressSet internal legalMembers;
 
     //Hashed doc
-    mapping(uint256 => string) verifiedDocumentHash;
+    mapping(uint256 => string) internal verifiedDocumentHash;
 
+    uint256[] internal verifiedBonds;
 
     constructor(string memory name_, string memory symbol_)
-    ERC721(name_, symbol_)
+        ERC721(name_, symbol_)
     {
         legalMembers.add(_msgSender());
         pause();
     }
 
-   
-
-    function canTransfer() external view returns (bool _status){
+    function canTransfer() external view returns (bool _status) {
         return (!paused() || _msgSender() == owner());
     }
 
     //Implemented hook that ovverides the function to make it nontransferable until desired
-    function _beforeTokenTransfer(address _from, address _to, uint256 _tokenId) internal view override {
-        if (paused()){
-            require(_msgSender() == owner(), "Only the Owner can Transfer or Mint until pause");
+    function _beforeTokenTransfer(
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) internal view override {
+        if (paused()) {
+            require(
+                _msgSender() == owner(),
+                "Only the Owner can Transfer or Mint until pause"
+            );
         }
     }
 
     // if a contract is paused only owner() can mint and transfer
-    function pause() public onlyOwner{
+    function pause() public onlyOwner {
         _pause();
     }
 
-    //if a contract is unpaused any one having minter role can mint 
+    //if a contract is unpaused any one having minter role can mint
     //Transferable if unpaused
-    function unPause() public onlyOwner{
+    function unPause() public onlyOwner {
         _unpause();
     }
 
-    function isLegalMember(address legalMember_) internal view returns (bool role_){
+    function isLegalMember(address legalMember_)
+        internal
+        view
+        returns (bool role_)
+    {
         return legalMembers.contains(legalMember_);
     }
-    
-    // add a minter address can be done only from owner
-    function addMinterRole(address legalMember_) public onlyOwner{
 
-        if(!legalMembers.contains(legalMember_)){
+    // add a minter address can be done only from owner
+    function addMinterRole(address legalMember_) public onlyOwner {
+        if (!legalMembers.contains(legalMember_)) {
             legalMembers.add(legalMember_);
         }
     }
@@ -75,31 +87,58 @@ contract BondNft is ERC721URIStorage, Ownable, Pausable,IBondNft{
         legalMembers.remove(legalMember_);
     }
 
-    function mintABond(address to_, string memory storageUri_) external returns(uint256){
-        
-         _tokenIds.increment();
-
+    function mintABond(address to_, string memory storageUri_)
+        external
+        returns (uint256)
+    {
+        _tokenIds.increment();
         uint256 newBond = _tokenIds.current();
-
-        _safeMint(to_,newBond);
-
-         _setTokenURI(newBond, storageUri_);
-
-         bonds[to_].push(newBond);
-
+        _safeMint(to_, newBond);
+        _setTokenURI(newBond, storageUri_);
+        bonds[to_].push(newBond);
         return newBond;
     }
 
-    function updateABond(uint256 id_, string memory hashedDoc_, string memory) external returns(bool){
-
+    function updateABond(
+        uint256 id_,
+        string memory hashedDoc_,
+        string memory
+    ) external returns (bool) {
         require(isLegalMember(_msgSender()), "Not a legal member");
+        require(id_ < _tokenIds.current(), "Not a valid nft");
         verifiedDocumentHash[id_] = hashedDoc_;
+        verifiedBonds[id_];
         return true;
     }
 
-    function verifyBond(uint256 id_, string memory hashedDoc_) external view returns(bool){
-         string memory docHash = verifiedDocumentHash[id_];
-         require(keccak256(abi.encodePacked(docHash)) == keccak256(abi.encodePacked(hashedDoc_)), "Invalid doc");
-         return true;
+    function verifyBond(uint256 id_, string memory hashedDoc_)
+        external
+        view
+        returns (bool)
+    {
+        string memory docHash = verifiedDocumentHash[id_];
+        require(
+            keccak256(abi.encodePacked(docHash)) ==
+                keccak256(abi.encodePacked(hashedDoc_)),
+            "Invalid doc"
+        );
+        return true;
+    }
+
+    function getAllBonds(uint256 start_, uint8 bondCount_)
+        external
+        view
+        returns (string[] memory)
+    {
+        string[] memory storageUris = new string[](bondCount_);
+        require(start_ < _tokenIds.current(), "Not a valid nft");
+        uint256 indexOfStorage = 0;
+        for (uint256 index = start_; index < start_ + bondCount_; index++) {
+            require(index < _tokenIds.current(), "Not a valid nft");
+            storageUris[indexOfStorage] = tokenURI(index);
+            indexOfStorage++;
+        }
+
+        return storageUris;
     }
 }

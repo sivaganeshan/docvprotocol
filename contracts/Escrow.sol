@@ -1,19 +1,21 @@
 pragma solidity ^0.8.0;
 
-contract Escrow{
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "./IbondNft.sol";
 
-     address public admin;
+contract Escrow is Ownable{
 
-     address internal bondNftContract;
+     string public name;
 
-     modifier onlyAdmin {
-            require(msg.sender == admin);
-         _;
-    }
+     IBondNftMint internal bondNftContract;
 
-     constructor(){
-         admin = msg.sender;
+
+     constructor(string memory name_, address bondNft_){
+         name = name_;
+         bondNftContract = IBondNftMint(bondNft_);
      }
+
+
 
 
 
