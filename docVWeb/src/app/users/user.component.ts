@@ -5,7 +5,7 @@ import {
   userPersona,
   idType,
   bondNftMetadata,
-} from './constants'
+} from '../constants'
 
 import { DocVService } from '../docV.service'
 
@@ -42,7 +42,7 @@ export class UserComponent implements OnInit {
   constructor(private docV: DocVService) {}
 
   ngOnInit(): void {
-    console.log(this.legalEntity)
+    // console.log(this.legalEntity)
   }
 
   public enumIter(val: any) {
