@@ -55,7 +55,7 @@ contract BondNft is
         }
     }
 
-    // if a contract is paused only owner() can mint and transfer
+    // if a contract is paused only owner() can transfer
     function pause() public onlyOwner {
         _pause();
     }
@@ -74,15 +74,15 @@ contract BondNft is
         return legalMembers.contains(legalMember_);
     }
 
-    // add a minter address can be done only from owner
-    function addMinterRole(address legalMember_) public onlyOwner {
+    // add a Legal member address can be done only from owner
+    function addLegalRole(address legalMember_) public onlyOwner {
         if (!legalMembers.contains(legalMember_)) {
             legalMembers.add(legalMember_);
         }
     }
 
-    // remove a minter address can be done only from owner
-    function removeMinterRole(address legalMember_) public onlyOwner {
+    // remove a Legal memeber address can be done only from owner
+    function removeLegalRole(address legalMember_) public onlyOwner {
         require(legalMembers.contains(legalMember_));
         legalMembers.remove(legalMember_);
     }
