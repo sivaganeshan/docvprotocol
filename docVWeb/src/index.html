@@ -6,6 +6,19 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- loading the minified version using jsDelivr -->
+  <script src="https://cdn.jsdelivr.net/npm/ipfs-core/dist/index.min.js"></script>
+
+  <!-- loading the human-readable (not minified) version jsDelivr -->
+  <script src="https://cdn.jsdelivr.net/npm/ipfs-core/dist/index.min.js"></script>
+  <script>
+    async function main () {
+    const node = await window.IpfsCore.create()
+    // Ready to use!
+    // See https://github.com/ipfs/js-ipfs#core-api
+    }
+    main()
+    </script>
 </head>
 <body>
   <app-root></app-root>

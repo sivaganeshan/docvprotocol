@@ -20,6 +20,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "angular-slickgrid", "stream"
+            ],
             "outputPath": "dist/doc-vweb",
             "index": "src/index.html",
             "main": "src/main.ts",

@@ -7,6 +7,8 @@ import {
   bondNftMetadata,
 } from './constants'
 
+import { DocVService } from '../docV.service'
+
 @Component({
   selector: 'user',
   templateUrl: './user.component.html',
@@ -27,6 +29,8 @@ export class UserComponent implements OnInit {
     isConfirmed: false,
   }
 
+  bondPurposeData = ''
+
   bondMetaDataErrors = false
 
   selectedPersona = ''
@@ -34,6 +38,8 @@ export class UserComponent implements OnInit {
   selectedLegalEntity = ''
   selectedLegalEntityName = ''
   selectedIdType = ''
+
+  constructor(private docV: DocVService) {}
 
   ngOnInit(): void {
     console.log(this.legalEntity)
@@ -62,12 +68,29 @@ export class UserComponent implements OnInit {
     this.bondMetaData.idType = val
   }
 
-  public submitUserData() {
+  public async submitUserData() {
     //check data integrity
-    this.bondMetaDataErrors = this.datacheck()
-    if (this.bondMetaDataErrors) {
+    // this.bondMetaDataErrors = this.datacheck()
+    // if (!this.bondMetaDataErrors) {
+    //   return
+    // }
+
+    if (this.bondPurposeData == '') {
       return
     }
+
+    this.docV.saveDataIPFS(this.bondPurposeData).then((data: any) => {
+      console.log('IPFS result CID:', data)
+
+      this.bondMetaData.purposeDataUrl = data.path
+      console.log('bondMetaData', this.bondMetaData)
+
+      this.docV
+        .saveDataIPFS(JSON.stringify(this.bondMetaData).toString())
+        .then((result: any) => {
+          console.log('result.cid', result)
+        })
+    })
 
     // pass data to service layer to send to IPFS and get CID then call web3 to pass to blockchain.
   }

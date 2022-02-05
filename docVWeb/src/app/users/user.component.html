@@ -86,7 +86,7 @@
                 </div>
                 <div class="col-lg-4">
                     <label>*Purpose:</label> 
-                    <textarea  [(ngModel)]="bondMetaData.purposeDataUrl"></textarea>
+                    <textarea  [(ngModel)]="bondPurposeData"></textarea>
                 </div>
             </div>
             <div class="row spacer form-check confirmClass">
@@ -99,7 +99,7 @@
                 <div class="col submit">
                     <button type="button" [disabled]="!bondMetaData.isConfirmed" class="btn btn-primary" (click)="submitUserData()"> Submit </button>
                 </div>
-                <div class="col errors" *ngIf="bondMetaDataErrors">
+                <div class="col errors" *ngIf="!bondMetaDataErrors">
                     All fields have to filled. No empty fields.
                 </div>
             </div>
