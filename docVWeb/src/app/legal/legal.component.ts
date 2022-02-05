@@ -43,15 +43,29 @@ export class LegalComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  changeListener($event): void {
+    this.readFile($event.target)
+  }
+
   public enumIter(val: any) {
     var keys = Object.values(val)
     return keys
   }
 
-  public gethashOfFile(file: any) {
-    let data = file.path[0].files[0]
+  public readFile(input: any) {
+    const self: this = this
 
-    console.log(data)
-    var result = this.docV.encryptFile(data)
+    var file: File = input.files[0]
+    var reader: FileReader = new FileReader()
+
+    reader.onloadend = function (e) {
+      // console.log(reader.result)
+      let hash = self.docV.encryptFile(reader.result)
+      // console.log('hash of file', hash)
+    }
+
+    reader.readAsText(file)
+
+    //hash file
   }
 }

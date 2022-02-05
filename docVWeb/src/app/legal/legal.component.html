@@ -51,7 +51,7 @@
 
     <div class="row ">
         <div class="col-lg-12 centered">
-            <input type="file" class="file-upload" (change)="gethashOfFile($event)">
+            <input type="file" class="file-upload" (change)="changeListener($event)">
         </div>
         <div class="col-lg-12 form-check spacer centered">
             <input class="form-check-input" type="checkbox" id="confirmBox" [(ngModel)]="bondMetaData.isConfirmed">

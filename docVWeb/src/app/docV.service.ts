@@ -30,8 +30,8 @@ export class DocVService {
     //   'secret key 123',
     // ).toString()
 
-    console.log(data)
-    var ciphertext = CryptoJS.SHA256(JSON.stringify(data).toString())
+    // console.log(data)
+    var ciphertext = CryptoJS.SHA256(data)
     console.log('cipher :', ciphertext)
 
     var hash = this.toHexString(ciphertext.words)
