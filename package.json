@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "hardhat run scripts/deploy.js",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
     "ng": "ng",
     "start": "ng serve"
   },
