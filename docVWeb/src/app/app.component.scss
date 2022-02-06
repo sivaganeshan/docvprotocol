@@ -35,12 +35,13 @@
     .by {
       font-size: 14px;
       color: white;
-      overflow: hidden;
-      white-space: nowrap;
+      /* overflow: hidden; */
+      /* white-space: nowrap; */
       text-overflow: ellipsis;
-      width: 93px;
-      display: inline-block;
+      width: 84px;
+      display: inline-flex;
       direction: rtl;
+      padding: 15px;
     }
 
     .eth {
