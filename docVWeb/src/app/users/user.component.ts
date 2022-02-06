@@ -84,7 +84,6 @@ export class UserComponent implements OnInit {
       return
     }
 
-    this.bondPurposeData['isConfirmed'] = undefined
     this.docV.saveDataIPFS(this.bondPurposeData).then((data: any) => {
       console.log('IPFS result CID:', data)
 

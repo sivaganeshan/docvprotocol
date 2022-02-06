@@ -201,11 +201,11 @@ export class EtherService {
   public async createBond(uri: string, legalMember: string) {
     const self: this = this
     let overrides = {
-      value: utils.parseEther('5.0'),
+      value: utils.parseEther('.11'),
     }
     return self.EscrowInstance.methods
       .createABond(uri, legalMember)
-      .send({ from: this.activeAccount, value: utils.parseEther('5.0') })
+      .send({ from: this.activeAccount, value: utils.parseEther('.11') })
       .then((tx) => {
         return tx
       })

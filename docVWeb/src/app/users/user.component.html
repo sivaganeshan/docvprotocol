@@ -43,11 +43,11 @@
                  <ng-container *ngFor="let item of legalEntity">
                     <li class="" (click)="setEntity(item)">
                         <div class="col legalData">
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
                                 <img src="{{item.avatar}}" class="legalAvatar">
                                 
                             </div>
-                            <div class="col-lg-6 details">
+                            <div class="col-lg-9 details">
                                 <span>Name: {{item.name}}</span>
                                 <span>Docs: {{item.docsCreated}}</span>
                                 <span>Rating: {{item.rating}}</span>
