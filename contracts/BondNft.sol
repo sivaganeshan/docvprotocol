@@ -105,9 +105,9 @@ contract BondNft is
         string memory storageUri_
     ) external override returns (bool) {
         require(isLegalMember(_msgSender()), "Not a legal member");
-        require(id_ < _tokenIds.current(), "Not a valid nft");
+        require(id_ <= _tokenIds.current(), "Not a valid nft");
         verifiedDocumentHash[id_] = hashedDoc_;
-        verifiedBonds[id_];
+        verifiedBonds.push(id_);
         _setTokenURI(id_,storageUri_);
         return true;
     }

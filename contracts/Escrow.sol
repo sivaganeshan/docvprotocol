@@ -22,4 +22,5 @@ contract Escrow is Ownable{
         bondNftContract.mintABond(_msgSender(), uri_);
         legalFundContract.depositToLegalMember{value:msg.value}(legalMember);
     }
+
 }

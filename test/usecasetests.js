@@ -50,18 +50,41 @@ describe("use case tests", function () {
     //   to: escrowContract.address,
     //   value: ethers.utils.parseEther("1.0"), // Sends exactly 1.0 ether
     // });
-
+    bondContract.addLegalRole(legalMember1.address);
     await escrowContract.connect(user).createABond(storageUri,legalMember1.address, {value:msgValue});
-   let nftId =1;
+    let bondDetails = await bondContract.getAllBonds(1,1)
+    let nftId =parseInt(bondDetails[0].bondId);
     let userAddress = await bondContract.connect(user).ownerOf(nftId);
     let userStorageUri = await bondContract.connect(user).tokenURI(nftId);
     let legalMemberBalance = await legalFundContract.connect(legalMember1).legalBalance(legalMember1.address);
 
-    console.log(await bondContract.getAllBonds(1,1));
+    let hashedVersionOfDoc = "0xab9876ab";
+    
+    let newStorageUri = "updatedStrogeUri";
+    await bondContract.connect(legalMember1).updateABond(nftId, hashedVersionOfDoc, newStorageUri);
+
+    //sucess flow
+    let docVerifiedStatus = await bondContract.connect(user).verifyBond(nftId, hashedVersionOfDoc);
+    expect(docVerifiedStatus).to.equal(true);
+
+    //failure flow
+    let forgedhashVersionOfDoc = "0xfd9876fd";
+    try{
+     docVerifiedStatus = await bondContract.connect(user).verifyBond(nftId, forgedhashVersionOfDoc);
+    }
+    catch(ex){
+
+      console.error(ex.message.toString());
+      expect(ex.message.toString().indexOf('Invalid doc')>-1).to.equal(true);
+    }
+
+    let newUserStorageUri = await bondContract.connect(user).tokenURI(nftId);
+    
 
     expect(userAddress).to.equal(user.address);
     expect(userStorageUri).to.equal(storageUri);
     expect(format(legalMemberBalance)).to.equal("0.5");
+    expect(newUserStorageUri).to.equal(newStorageUri);
 
   });
 });
