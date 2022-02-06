@@ -14,16 +14,15 @@ module.exports = {
   paths: {
     sources: "./contracts",
   },
-//   networks: {
-//     rinkeby: {
-//       url: RINKEBY_RPC_URL,
-//       accounts: [PRIVATE_KEY,Private_key2, private_key3],
-//       //accounts: {
-//           //mnemonic: MNEMONIC,
-//       gas: 2100000,
-//       gasPrice: 8000000000,
-//       saveDeployments: true,
-//   },
-// }
+  networks: {
+    local: {
+      url: HARDHAT_RPC_URL,
+      accounts: [HARDHAT_ADMIN_ACCOUNT_PRIVATE_KEY]
+    },
+    // rinkeby: {
+    //   url: "https://eth-rinkeby.alchemyapi.io/v2/123abc123abc123abc123abc123abcde",
+    //   accounts: [privateKey1, privateKey2, ...]
+    // }
+  }
  
 };
