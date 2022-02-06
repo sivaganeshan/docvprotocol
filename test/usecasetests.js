@@ -57,6 +57,8 @@ describe("use case tests", function () {
     let userStorageUri = await bondContract.connect(user).tokenURI(nftId);
     let legalMemberBalance = await legalFundContract.connect(legalMember1).legalBalance(legalMember1.address);
 
+    console.log(await bondContract.getAllBonds(1,1));
+
     expect(userAddress).to.equal(user.address);
     expect(userStorageUri).to.equal(storageUri);
     expect(format(legalMemberBalance)).to.equal("0.5");

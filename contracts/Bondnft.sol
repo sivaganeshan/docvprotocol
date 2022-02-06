@@ -135,10 +135,10 @@ contract BondNft is
         returns (bondDetails[] memory)
     {
         bondDetails[] memory storageUris = new bondDetails[](bondCount_);
-        require(start_ < _tokenIds.current(), "Not a valid nft");
+        require(start_ <= _tokenIds.current(), "Not a valid nft");
         uint256 indexOfStorage = 0;
         for (uint256 index = start_; index < start_ + bondCount_; index++) {
-            require(index < _tokenIds.current(), "Not a valid nft");
+            require(index <= _tokenIds.current(), "Not a valid nft");
             storageUris[indexOfStorage] = bondDetails(index,tokenURI(index));
             indexOfStorage++;
         }
