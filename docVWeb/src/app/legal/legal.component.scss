@@ -15,8 +15,12 @@ $dropdown-secondary: #d69eba;
     display: flex;
 
     .metaCard {
-      width: 18rem;
+      width: 12rem;
       margin: 10px;
+
+      .metaCardData {
+        display: contents;
+      }
     }
 
     .selected {

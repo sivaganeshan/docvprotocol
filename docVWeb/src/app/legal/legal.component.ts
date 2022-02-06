@@ -8,6 +8,7 @@ import {
 } from '../constants'
 
 import { DocVService } from '../docV.service'
+import { EtherService } from '../ether.service'
 
 @Component({
   selector: 'legal',
@@ -39,9 +40,28 @@ export class LegalComponent implements OnInit {
   selectedLegalEntityName = ''
   selectedIdType = ''
 
-  constructor(private docV: DocVService) {}
+  currentPageCreate: boolean = true
 
-  ngOnInit(): void {}
+  bondArray: any = []
+  bondMetaDataArray: any = []
+
+  purposeData = ''
+
+  constructor(private docV: DocVService, private ether: EtherService) {}
+
+  ngOnInit(): void {
+    // this.getAllBonds()
+
+    this.ether.accountConnected.subscribe((data: any) => {
+      if (data != '') {
+        this.getAllBonds()
+      }
+    })
+  }
+
+  public showCreate(isbool: boolean) {
+    this.currentPageCreate = isbool
+  }
 
   changeListener($event): void {
     this.readFile($event.target)
@@ -67,5 +87,28 @@ export class LegalComponent implements OnInit {
     reader.readAsText(file)
 
     //hash file
+  }
+
+  public async getAllBonds() {
+    this.ether
+      .getAllBonds(1, 1)
+      .then((data) => {
+        console.log(data)
+        this.bondArray = data[0]
+      })
+      .then(() => {
+        //call ipfs
+        this.docV.callDataIPFS(this.bondArray.cid).then((data) => {
+          console.log(data)
+          this.bondMetaDataArray.push(JSON.parse(data))
+        })
+      })
+  }
+
+  public loadPurposeData(cid: string) {
+    this.docV.callDataIPFS(cid).then((result) => {
+      console.log(result)
+      this.purposeData = result
+    })
   }
 }

@@ -13,5 +13,15 @@ module.exports = {
   paths: {
     sources: "./contracts",
   },
+  networks: {
+    local: {
+      url: HARDHAT_RPC_URL,
+      accounts: [HARDHAT_ADMIN_ACCOUNT_PRIVATE_KEY]
+    },
+    // rinkeby: {
+    //   url: "https://eth-rinkeby.alchemyapi.io/v2/123abc123abc123abc123abc123abcde",
+    //   accounts: [privateKey1, privateKey2, ...]
+    // }
+  }
  
 };

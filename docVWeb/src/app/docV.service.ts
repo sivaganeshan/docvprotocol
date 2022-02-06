@@ -5,6 +5,7 @@ import { environment } from '../environments/environment'
 
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { Byte } from '@angular/compiler/src/util'
+const toBuffer = require('it-to-buffer')
 
 var CryptoJS = require('crypto-js')
 var CryptoES = require('crypto-js/enc-hex')
@@ -20,6 +21,8 @@ export class DocVService {
   nonce: any = ';'
   path: any = ';'
   privateKey: any = ''
+
+  public node
 
   constructor() {}
 
@@ -51,6 +54,25 @@ export class DocVService {
     return results
   }
 
+  public async callDataIPFS(cid: string) {
+    let options = {
+      url: `http://localhost:5001`,
+      // headers: { 'Access-Control-Allow-Headers': '*' },
+    }
+    this.node = await create(options) // connects to default
+
+    const bufferedContents = await toBuffer(await this.node.cat(cid)) // returns a Buffer
+    // const stringContents = bufferedContents.toString() // returns a string
+
+    let stringContents = this.Utf8ArrayToStr(bufferedContents)
+
+    return stringContents
+  }
+
+  public pad(n) {
+    return n.length < 2 ? '0' + n : n
+  }
+
   public toHexString(byteArray) {
     var hexArrar = byteArray.map((byte) => {
       return ('0' + (byte & 0xff).toString(16)).slice(-2)
@@ -60,6 +82,47 @@ export class DocVService {
     // })
 
     return '0x' + hexArrar.join('')
+  }
+
+  public Utf8ArrayToStr(array) {
+    var out, i, len, c
+    var char2, char3
+
+    out = ''
+    len = array.length
+    i = 0
+    while (i < len) {
+      c = array[i++]
+      switch (c >> 4) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+          // 0xxxxxxx
+          out += String.fromCharCode(c)
+          break
+        case 12:
+        case 13:
+          // 110x xxxx   10xx xxxx
+          char2 = array[i++]
+          out += String.fromCharCode(((c & 0x1f) << 6) | (char2 & 0x3f))
+          break
+        case 14:
+          // 1110 xxxx  10xx xxxx  10xx xxxx
+          char2 = array[i++]
+          char3 = array[i++]
+          out += String.fromCharCode(
+            ((c & 0x0f) << 12) | ((char2 & 0x3f) << 6) | ((char3 & 0x3f) << 0),
+          )
+          break
+      }
+    }
+
+    return out
   }
 
   // Convert a byte array to a hex string
