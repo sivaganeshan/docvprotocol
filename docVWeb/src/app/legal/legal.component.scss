@@ -6,10 +6,11 @@ $dropdown-secondary: #d69eba;
 
   .title {
     text-align: center;
+    font-size: x-large;
   }
 
   .metaDataCard {
-    background-color: rgba(143, 142, 142, 0.645);
+    background-color: rgb(233 233 233);
     padding: 10px;
     flex-wrap: wrap;
     display: flex;
@@ -17,18 +18,32 @@ $dropdown-secondary: #d69eba;
     .metaCard {
       width: 12rem;
       margin: 10px;
+      padding: 0.5%;
 
       .metaCardData {
         display: contents;
       }
+
+      .completedSection {
+        text-align: right;
+      }
+      .completedSection:after {
+        content: '\2705';
+      }
     }
 
     .selected {
-      border: 2px solid blue;
+      // border: 2px solid green;
+      background-color: #e1f6ff;
+      color: black;
+      font-size: small;
     }
 
     .completed {
-      border: 2px solid green;
+      // border: 2px solid green;
+      background-color: #e1f6ff;
+      color: black;
+      font-size: small;
     }
   }
 
@@ -44,6 +59,13 @@ $dropdown-secondary: #d69eba;
     }
   }
 
+  .inputMargin {
+    margin-top: 15px;
+
+    .fileUpload {
+      margin-left: 8%;
+    }
+  }
   .centered {
     align-items: center;
     text-align: center;

@@ -233,8 +233,14 @@ export class EtherService {
   //param: verifyBond(uint256 id_, string memory hashedDoc_)
   public async verifyBond(id_, hashedDoc_: string) {
     const self: this = this
-    let success = await self.BondNftInstance.methods.verifyBond(id_, hashedDoc_)
-    return success
+    try {
+      return await self.BondNftInstance.methods
+        .verifyBond(id_, hashedDoc_)
+        .call()
+    } catch (error) {
+      console.log(error)
+      return false
+    }
   }
 
   //param: getAllBonds(uint256 start_, uint8 bondCount_)

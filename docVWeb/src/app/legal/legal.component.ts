@@ -45,8 +45,14 @@ export class LegalComponent implements OnInit {
   selectedBondDataIndex = 0
   bondArray: any = []
   bondMetaDataArray: any = []
+  updateBond = {
+    cid: '',
+    hash: '',
+  }
 
   purposeData = ''
+
+  legalConfirmation: boolean = false
 
   constructor(private docV: DocVService, private ether: EtherService) {}
 
@@ -98,11 +104,8 @@ export class LegalComponent implements OnInit {
             .saveDataIPFS(JSON.stringify(obj).toString())
             .then((newCid) => {
               console.log('newCid', newCid.path)
-              self.ether
-                .updateABond(self.selectedBondDataIndex + 1, hash, newCid.path)
-                .then((data) => {
-                  console.log(data)
-                })
+              self.updateBond.hash = hash
+              self.updateBond.cid = newCid.path
             })
         })
     }
@@ -112,25 +115,40 @@ export class LegalComponent implements OnInit {
     //hash file
   }
 
-  public async getAllBonds() {
+  public uploadFile() {
     this.ether
-      .getAllBonds(1, 1)
+      .updateABond(
+        this.selectedBondDataIndex + 1,
+        this.updateBond.hash,
+        this.updateBond.cid,
+      )
       .then((data) => {
         console.log(data)
-        this.bondArray = data[0]
+      })
+  }
+
+  public async getAllBonds() {
+    this.ether
+      .getAllBonds(1, 2)
+      .then((data) => {
+        console.log(data)
+        this.bondArray = data
       })
       .then(() => {
         //call ipfs
-        this.docV.callDataIPFS(this.bondArray.cid).then((data) => {
-          console.log(data)
-          let obj = JSON.parse(data)
-          if (Object.keys(obj).indexOf('legalDataUrl') > -1) {
-            obj['isComplete'] = true
-          } else {
-            obj['isComplete'] = false
-          }
-          this.bondMetaDataArray.push(obj)
-        })
+
+        for (let i = 0; i < this.bondArray.length; i++) {
+          this.docV.callDataIPFS(this.bondArray[i].cid).then((data) => {
+            console.log(data)
+            let obj = JSON.parse(data)
+            if (Object.keys(obj).indexOf('legalDataUrl') > -1) {
+              obj['isComplete'] = true
+            } else {
+              obj['isComplete'] = false
+            }
+            this.bondMetaDataArray.push(obj)
+          })
+        }
       })
   }
 

@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="title">
+                <span> Verification Portal </span>
+            </div>
+        </div>   
+    </div>
+
+    <div class="row ">
+        <div class="col-lg-12 centeredVerify">
+            <div class="col-lg-6 rightPush">
+                <input type="text " class="" [(ngModel)]="documentReferenceId" placeholder="Enter Document Reference ID" >
+            </div>
+            <div class="col-lg-6 leftPush">
+                <input type="file" class="file-upload" (change)="changeListener($event)">
+            </div>
+            
+        </div>
+
+        <div class="col-lg-12 form-check spacer centered">
+            <button type="button" class="btn btn-primary" (click)="verifyFile()">Submit</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col centered" *ngIf="isSubmitted">
+            <span class="successMsg" *ngIf="fileVerified">
+                The Upload Document is Valid.
+            </span>
+
+            <span class="failMsg" *ngIf="!fileVerified">
+                The Upload Document is InValid.
+            </span>
+        </div>
+
+    </div>
+    
+</div>
