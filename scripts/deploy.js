@@ -3,9 +3,9 @@ const path = require('path');
 
 async function main() {
 
-  const legal1 = '0x2546bcd3c84621e976d8185a91a922ae77ecec30'
-  const legal2 = '0xbda5747bfd65f08deb54cb465eb87d40e51b197e'
-  const legal3 = '0xdd2fd4581271e230360230f9337d5c0430bf44c0'
+  const legal1 = '0x4f4Df32964DFD8BD596D36F9cFCb5158Bad7D4E5'
+  const legal2 = '0xdFd43247B3e9eeEF1b36887519447d5C8E562638'
+  const legal3 = '0xc94867A9121E43931153c66F201875FB4d0dcB78'
 
     const bondNft = await ethers.getContractFactory("BondNft");
     const bondNftDeployed = await bondNft.deploy("BONDNFT", "BNFT");
