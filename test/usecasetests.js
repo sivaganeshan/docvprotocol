@@ -10,7 +10,7 @@ function format(n) {
   return ethers.utils.formatEther(n);
 }
 
-describe("use case tests", function () {
+describe("uescase Tests", function () {
 
   let escrowContract;
   let bondContract;
@@ -38,7 +38,7 @@ describe("use case tests", function () {
       
   })
 
-  it("Create a Bond and verify the owner and storageURI", async function () {
+  it("Doc verification successful and failure scenarios", async function () {
 
     let storageUri = "sampleStorageUri";
     let msgValue = tokens("0.5");
