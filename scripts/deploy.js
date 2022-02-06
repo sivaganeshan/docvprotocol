@@ -2,7 +2,10 @@ const fs = require('fs');
 const path = require('path');
 
 async function main() {
-        
+
+  const legal1 = '0x2546bcd3c84621e976d8185a91a922ae77ecec30'
+  const legal2 = '0xbda5747bfd65f08deb54cb465eb87d40e51b197e'
+  const legal3 = '0xdd2fd4581271e230360230f9337d5c0430bf44c0'
 
     const bondNft = await ethers.getContractFactory("BondNft");
     const bondNftDeployed = await bondNft.deploy("BONDNFT", "BNFT");
@@ -12,6 +15,10 @@ async function main() {
 
     const escrow = await ethers.getContractFactory("Escrow");
     const escrowDeployed = await escrow.deploy("Escrow",bondNftDeployed.address,legalFundDeployed.address );
+
+    const tx = await bondNftDeployed.addLegalRole(legal1);
+    const tx2 = await bondNftDeployed.addLegalRole(legal2);
+    const tx3 = await bondNftDeployed.addLegalRole(legal3);
 
     console.log(" contract address Of bondNft : ", bondNftDeployed.address);
 

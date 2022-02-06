@@ -15,16 +15,29 @@
     <ng-container *ngIf="currentPageCreate">
         <div class="row">
             <div class="col-lg-12 metaDataCard">
-                <ng-container *ngFor="let obj of bondMetaDataArray">
-                    <div class="card metaCard selected">
-                        <div class="card-body metaCardData" (click)="loadPurposeData(obj.purposeDataUrl)">
-                          <span> Name: {{obj.name}}</span>
-                          <span> Email: {{obj.email}}</span>
-                          <span> Mobile: {{obj.mobile}}</span>
-                          <span> ID Type: {{obj.idType}}</span>
-                          <span> ID: {{obj.idNumber}}</span>
+                <ng-container *ngFor="let obj of bondMetaDataArray; let i = index">
+                    <ng-container *ngIf="obj.isComplete">
+                        <div class="card metaCard completed">
+                            <div class="card-body metaCardData" (click)="loadPurposeData(obj.purposeDataUrl, i)">
+                              <span> Name: cc {{obj.name}}</span>
+                              <span> Email: {{obj.email}}</span>
+                              <span> Mobile: {{obj.mobile}}</span>
+                              <span> ID Type: {{obj.idType}}</span>
+                              <span> ID: {{obj.idNumber}}</span>
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
+                    <ng-container *ngIf="!obj.isComplete"> 
+                        <div class="card metaCard selected">
+                            <div class="card-body metaCardData" (click)="loadPurposeData(obj.purposeDataUrl, i)">
+                              <span> Name: ss {{obj.name}}</span>
+                              <span> Email: {{obj.email}}</span>
+                              <span> Mobile: {{obj.mobile}}</span>
+                              <span> ID Type: {{obj.idType}}</span>
+                              <span> ID: {{obj.idNumber}}</span>
+                            </div>
+                        </div>
+                    </ng-container>
                 </ng-container>            
     
             </div>

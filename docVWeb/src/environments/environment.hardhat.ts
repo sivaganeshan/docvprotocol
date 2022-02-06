@@ -1,7 +1,7 @@
 
       export const environment = {
         production: false,
-        bondNftInstance: '0xBeb37861E4672e3B9dF7BC75cDC185d27E7be199',
-        legalFundInstance: '0x07F9d9b42f928C69335A2ABfc8B97916A5bA437E',
-        escrowInstance: '0xd7fbb1E70dB745370a2eB25dBF0C84D906829148'
+        bondNftInstance: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+        legalFundInstance: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+        escrowInstance: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0'
       };

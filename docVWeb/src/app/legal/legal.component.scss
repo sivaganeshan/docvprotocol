@@ -26,6 +26,10 @@ $dropdown-secondary: #d69eba;
     .selected {
       border: 2px solid blue;
     }
+
+    .completed {
+      border: 2px solid green;
+    }
   }
 
   .metaDataPurpose {

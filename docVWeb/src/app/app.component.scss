@@ -19,6 +19,31 @@
     border-radius: 10px;
     margin: 8px;
   }
+
+  .metaDetails {
+    display: flex;
+    flex-direction: column;
+
+    .info {
+      font-size: large;
+      color: white;
+    }
+
+    .by {
+      font-size: 14px;
+      color: white;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 93px;
+      display: inline-block;
+      direction: rtl;
+    }
+
+    .eth {
+      font-size: 14px;
+    }
+  }
 }
 .doc-nav-footer {
   position: absolute;

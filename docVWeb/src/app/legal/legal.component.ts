@@ -42,6 +42,7 @@ export class LegalComponent implements OnInit {
 
   currentPageCreate: boolean = true
 
+  selectedBondDataIndex = 0
   bondArray: any = []
   bondMetaDataArray: any = []
 
@@ -77,11 +78,33 @@ export class LegalComponent implements OnInit {
 
     var file: File = input.files[0]
     var reader: FileReader = new FileReader()
+    let hash
 
+    let obj = this.bondMetaDataArray[this.selectedBondDataIndex]
     reader.onloadend = function (e) {
-      // console.log(reader.result)
-      let hash = self.docV.encryptFile(reader.result)
-      // console.log('hash of file', hash)
+      console.log(reader.result?.toString())
+      hash = self.docV.encryptFile(reader.result)
+      console.log('hash of file', hash)
+
+      self.docV
+        .saveDataIPFS(reader.result)
+        .then((cid) => {
+          console.log(obj)
+          obj['legalDataUrl'] = cid.path
+        })
+        .then(() => {
+          console.log('saving UpdateObj to IPFS', obj)
+          self.docV
+            .saveDataIPFS(JSON.stringify(obj).toString())
+            .then((newCid) => {
+              console.log('newCid', newCid.path)
+              self.ether
+                .updateABond(self.selectedBondDataIndex + 1, hash, newCid.path)
+                .then((data) => {
+                  console.log(data)
+                })
+            })
+        })
     }
 
     reader.readAsText(file)
@@ -100,12 +123,19 @@ export class LegalComponent implements OnInit {
         //call ipfs
         this.docV.callDataIPFS(this.bondArray.cid).then((data) => {
           console.log(data)
-          this.bondMetaDataArray.push(JSON.parse(data))
+          let obj = JSON.parse(data)
+          if (Object.keys(obj).indexOf('legalDataUrl') > -1) {
+            obj['isComplete'] = true
+          } else {
+            obj['isComplete'] = false
+          }
+          this.bondMetaDataArray.push(obj)
         })
       })
   }
 
-  public loadPurposeData(cid: string) {
+  public loadPurposeData(cid: string, index) {
+    this.selectedBondDataIndex = index
     this.docV.callDataIPFS(cid).then((result) => {
       console.log(result)
       this.purposeData = result

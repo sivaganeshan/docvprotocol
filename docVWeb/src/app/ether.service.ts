@@ -11,6 +11,7 @@ declare let window: any
 import BondNft from '../assets/BondNft.json'
 import Escrow from '../assets/Escrow.json'
 import LegalFund from '../assets/LegalFund.json'
+import { timeStamp } from 'console'
 
 export class EtherService {
   public activeAccount: any // tracks what account address is currently used.
@@ -134,6 +135,11 @@ export class EtherService {
           window.web3.currentProvider.selectedAddress,
         )
 
+        // window.ethereum.request({method: 'eth_getBalance'})
+        // .then((data:any)=>{
+        //   console.log("Balance of account")
+        // })
+
         self.accountChecker()
       })
       .catch((err: any) => {
@@ -183,6 +189,12 @@ export class EtherService {
     //   })
   }
 
+  public async getAccountBalance() {
+    let balance = await window.web3.eth.getBalance(this.activeAccount)
+    // console.log(Web3.utils.fromWei(balance, 'ether'))
+    return Web3.utils.fromWei(balance, 'ether')
+  }
+
   // all smart contract functions here.
   // ESCROW functions
 
@@ -210,12 +222,12 @@ export class EtherService {
   //param:  uint256 id_, string memory hashedDoc_,string memory storageUri_
   public async updateABond(id_, hashedDoc_: string, storageUri_: string) {
     const self: this = this
-    let success = await self.BondNftInstance.methods.updateABond(
-      id_,
-      hashedDoc_,
-      storageUri_,
-    )
-    return success
+    await self.BondNftInstance.methods
+      .updateABond(id_, hashedDoc_, storageUri_)
+      .send({ from: this.activeAccount })
+      .then((tx) => {
+        return tx
+      })
   }
 
   //param: verifyBond(uint256 id_, string memory hashedDoc_)
