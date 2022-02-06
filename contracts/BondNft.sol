@@ -144,4 +144,8 @@ contract BondNft is
         }
         return storageUris;
     }
+
+    function getTotalBondCount() external view returns(uint256){
+        return _tokenIds.current();
+    }
 }

@@ -79,8 +79,10 @@ describe("uescase Tests", function () {
     }
 
     let newUserStorageUri = await bondContract.connect(user).tokenURI(nftId);
-    
+    let bondCount = await bondContract.getTotalBondCount();
 
+    console.log("bondcount :",bondCount);
+    expect(bondCount).to.equal(1);
     expect(userAddress).to.equal(user.address);
     expect(userStorageUri).to.equal(storageUri);
     expect(format(legalMemberBalance)).to.equal("0.5");
