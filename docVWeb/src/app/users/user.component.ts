@@ -8,6 +8,7 @@ import {
 } from '../constants'
 
 import { DocVService } from '../docV.service'
+import { EtherService } from '../ether.service'
 
 @Component({
   selector: 'user',
@@ -31,15 +32,18 @@ export class UserComponent implements OnInit {
 
   bondPurposeData = ''
 
-  bondMetaDataErrors = false
+  bondMDErrorsObj = {
+    isSubmitted: false,
+    errors: false,
+  }
 
   selectedPersona = ''
   selectedDocType = ''
-  selectedLegalEntity = ''
+  selectedLegalEntity: any
   selectedLegalEntityName = ''
   selectedIdType = ''
 
-  constructor(private docV: DocVService) {}
+  constructor(private docV: DocVService, private ether: EtherService) {}
 
   ngOnInit(): void {
     // console.log(this.legalEntity)
@@ -69,11 +73,12 @@ export class UserComponent implements OnInit {
   }
 
   public async submitUserData() {
-    //check data integrity
-    // this.bondMetaDataErrors = this.datacheck()
-    // if (!this.bondMetaDataErrors) {
-    //   return
-    // }
+    // check data integrity
+    this.bondMDErrorsObj.isSubmitted = true
+    this.bondMDErrorsObj.errors = this.datacheck()
+    if (this.bondMDErrorsObj.errors) {
+      return
+    }
 
     if (this.bondPurposeData == '') {
       return
@@ -89,20 +94,38 @@ export class UserComponent implements OnInit {
         .saveDataIPFS(JSON.stringify(this.bondMetaData).toString())
         .then((result: any) => {
           console.log('result.cid', result)
+
+          //now call and save to escrow
+          this.ether
+            .createBond(result.path, this.selectedLegalEntity.address)
+            .then((data) => {
+              console.log('create a bond', data)
+            })
+
+          this.resetUserData()
         })
     })
 
     // pass data to service layer to send to IPFS and get CID then call web3 to pass to blockchain.
   }
 
+  public resetUserData() {
+    this.bondMDErrorsObj.errors = false
+    this.bondMDErrorsObj.isSubmitted = false
+  }
+
   private datacheck() {
     for (const [key, value] of Object.entries(this.bondMetaData)) {
       console.log(`${key}: ${value}`)
-      if (value == null || value.toString().trim().length == 0) {
-        // this.bondMetaDataErrors.[key] = true
-        return false
+
+      if (
+        key != 'purposeDataUrl' &&
+        (value == null || value.toString().trim().length == 0)
+      ) {
+        // errors found
+        return true
       }
     }
-    return true
+    return false
   }
 }

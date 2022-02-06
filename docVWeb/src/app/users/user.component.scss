@@ -18,6 +18,26 @@ $dropdown-secondary: #d69eba;
       width: 215px;
       background-color: $dropdown-primary;
     }
+
+    .ulSize {
+      width: 213px;
+    }
+
+    .legalData {
+      display: flex;
+      border: 1px solid grey;
+
+      .details {
+        display: grid;
+        font-size: small;
+      }
+    }
+
+    .legalAvatar {
+      width: 86px;
+      height: auto;
+      margin: 5px;
+    }
   }
 
   .userInfo {

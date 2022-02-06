@@ -8,11 +8,12 @@ import { UserModule } from './users/user.module'
 import { LegalModule } from './legal/legal.module'
 
 import { DocVService } from './docV.service'
+import { EtherService } from './ether.service'
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, UserModule, LegalModule],
-  providers: [DocVService],
+  providers: [DocVService, EtherService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -23,12 +23,13 @@ export const legalTeam = () => {
   return [
     {
       name: 'Ram Rao',
-      address: {
+      homeAddress: {
         line1: '256, First street',
         line2: 'bellandur, Bangalore',
         line3: 'Karnataka',
         zip: 560013,
       },
+      address: '0x2546bcd3c84621e976d8185a91a922ae77ecec30',
       email: 'ramrao112@gmail.com',
       avatar: 'https://reqres.in/img/faces/9-image.jpg',
       docsCreated: 50,
@@ -36,12 +37,13 @@ export const legalTeam = () => {
     },
     {
       name: 'Suk Hegde',
-      address: {
+      homeAddress: {
         line1: '654, second street',
         line2: 'Koramangala, Bangalore',
         line3: 'Karnataka',
         zip: 560064,
       },
+      address: '0xbda5747bfd65f08deb54cb465eb87d40e51b197e',
       email: 'sukhegde112@gmail.com',
       avatar: 'https://reqres.in/img/faces/10-image.jpg',
       docsCreated: 87,
@@ -49,12 +51,13 @@ export const legalTeam = () => {
     },
     {
       name: 'Indira Rajan',
-      address: {
+      homeAddress: {
         line1: '874, third street',
         line2: 'indiranagar, Bangalore',
         line3: 'Karnataka',
         zip: 560047,
       },
+      address: '0xdd2fd4581271e230360230f9337d5c0430bf44c0',
       email: 'sukhegde112@gmail.com',
       avatar: 'https://reqres.in/img/faces/12-image.jpg',
       docsCreated: 36,

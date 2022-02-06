@@ -37,17 +37,29 @@
             <span>Select Legal Entity:</span>
             <div class="dropdown">
                 <button class="btn dropdownCus dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ selectedLegalEntity != '' ? selectedLegalEntityName: 'Entities'}}
+                    {{ selectedLegalEntityName != '' ? selectedLegalEntityName: 'Entities'}}
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <ul class="dropdown-menu ulSize" aria-labelledby="dropdownMenuButton1">
                  <ng-container *ngFor="let item of legalEntity">
-                    <li><a class="dropdown-item" (click)="setEntity(item)">{{item.name}}</a></li>
+                    <li class="" (click)="setEntity(item)">
+                        <div class="col legalData">
+                            <div class="col-lg-6">
+                                <img src="{{item.avatar}}" class="legalAvatar">
+                                
+                            </div>
+                            <div class="col-lg-6 details">
+                                <span>Name: {{item.name}}</span>
+                                <span>Docs: {{item.docsCreated}}</span>
+                                <span>Rating: {{item.rating}}</span>
+                            </div>
+                        </div>
+                    </li>
                  </ng-container>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="row userInfo" *ngIf="selectedLegalEntity.length != 0">
+    <div class="row userInfo" *ngIf="selectedLegalEntityName.length != 0">
         <div class="col-lg-12">
             <div class="row spacer">
                 <div class="col-lg-12 formLabel">
@@ -99,9 +111,11 @@
                 <div class="col submit">
                     <button type="button" [disabled]="!bondMetaData.isConfirmed" class="btn btn-primary" (click)="submitUserData()"> Submit </button>
                 </div>
-                <div class="col errors" *ngIf="!bondMetaDataErrors">
-                    All fields have to filled. No empty fields.
-                </div>
+                <ng-container *ngIf="bondMDErrorsObj.isSubmitted">
+                    <div class="col errors" *ngIf="bondMDErrorsObj.errors">
+                        All fields are required. No empty fields.
+                    </div>
+                </ng-container>
             </div>
         </div>
     </div>
