@@ -84,7 +84,7 @@ export class VerifyComponent implements OnInit {
       console.log('hash of file', hash)
     }
 
-    reader.readAsText(file)
+    reader.readAsDataURL(file)
   }
 
   public verifyFile() {

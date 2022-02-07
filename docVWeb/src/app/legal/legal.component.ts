@@ -57,11 +57,9 @@ export class LegalComponent implements OnInit {
   constructor(private docV: DocVService, private ether: EtherService) {}
 
   ngOnInit(): void {
-    // this.getAllBonds()
-
     this.ether.accountConnected.subscribe((data: any) => {
       if (data != '') {
-        this.getAllBonds()
+        this.getBondCount()
       }
     })
   }
@@ -95,7 +93,7 @@ export class LegalComponent implements OnInit {
       self.docV
         .saveDataIPFS(reader.result)
         .then((cid) => {
-          console.log(obj)
+          console.log(cid)
           obj['legalDataUrl'] = cid.path
         })
         .then(() => {
@@ -110,12 +108,13 @@ export class LegalComponent implements OnInit {
         })
     }
 
-    reader.readAsText(file)
+    reader.readAsDataURL(file)
 
     //hash file
   }
 
   public uploadFile() {
+    console.log('seelctedBondData Index', this.selectedBondDataIndex + 1)
     this.ether
       .updateABond(
         this.selectedBondDataIndex + 1,
@@ -127,11 +126,20 @@ export class LegalComponent implements OnInit {
       })
   }
 
-  public async getAllBonds() {
+  public getBondCount() {
+    this.ether.getBondCount().then((val) => {
+      console.log('bond Count', val)
+
+      if (val > 0) {
+        this.getAllBonds(val)
+      }
+    })
+  }
+  public async getAllBonds(count: number) {
     this.ether
-      .getAllBonds(1, 2)
+      .getAllBonds(1, count)
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         this.bondArray = data
       })
       .then(() => {
@@ -139,23 +147,30 @@ export class LegalComponent implements OnInit {
 
         for (let i = 0; i < this.bondArray.length; i++) {
           this.docV.callDataIPFS(this.bondArray[i].cid).then((data) => {
-            console.log(data)
+            console.log(this.bondArray[i].bondId)
+
             let obj = JSON.parse(data)
-            if (Object.keys(obj).indexOf('legalDataUrl') > -1) {
-              obj['isComplete'] = true
-            } else {
-              obj['isComplete'] = false
-            }
+            obj['bondId'] = this.bondArray[i].bondId
+            console.log(obj)
+            // if (Object.keys(obj).indexOf('legalDataUrl') > -1) {
+            //   obj['isComplete'] = true
+            // } else {
+            //   obj['isComplete'] = false
+            // }
             this.bondMetaDataArray.push(obj)
+            this.bondMetaDataArray = this.bondMetaDataArray.sort(
+              (a, b) => a.bondId - b.bondId,
+            )
           })
         }
       })
   }
 
   public loadPurposeData(cid: string, index) {
-    this.selectedBondDataIndex = index
+    this.selectedBondDataIndex = index - 1
+    console.log('BondId selected', index)
     this.docV.callDataIPFS(cid).then((result) => {
-      console.log(result)
+      console.log('purposedata', result)
       this.purposeData = result
     })
   }

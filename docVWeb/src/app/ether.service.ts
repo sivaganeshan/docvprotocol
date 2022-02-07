@@ -262,4 +262,9 @@ export class EtherService {
     //   console.error('Error in getting getTotalEthLocked : ', ex)
     // }
   }
+
+  public async getBondCount() {
+    const self: this = this
+    return await this.BondNftInstance.methods.getTotalBondCount().call()
+  }
 }

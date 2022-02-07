@@ -11,11 +11,11 @@
         <div class="col-lg-12 metaDataCard">
             <ng-container *ngFor="let obj of bondMetaDataArray; let i = index">
                 <div class="card metaCard completed">
-                    <div class="card-body metaCardData" (click)="loadPurposeData(obj.purposeDataUrl, i)">
+                    <div class="card-body metaCardData" (click)="loadPurposeData(obj.purposeDataUrl, obj.bondId)">
                       <span> Name: {{obj.name}}</span>
                       <span> Email: {{obj.email}}</span>
                       <span> Mobile: {{obj.mobile}}</span>
-                      <span *ngIf="obj.isComplete" class="completedSection"> </span>
+                      <span *ngIf="obj.legalDataUrl != undefined" class="completedSection"> </span>
                     </div>
                 </div>
                 <!-- <ng-container *ngIf="!obj.isComplete"> 
